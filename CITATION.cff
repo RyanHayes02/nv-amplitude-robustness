@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "Please cite the archived software release used in your analysis."
+type: software
+title: "NV DQ Ramsey control under amplitude manipulation"
+authors:
+  - family-names: Hayes
+    given-names: Ryan
+abstract: "Simulation benchmark of hard, BB1, fractional STIRAP, and time-matched optimized control for NV double-quantum Ramsey sensing under specified microwave amplitude manipulation."
+keywords:
+  - NV centers
+  - quantum sensing
+  - STIRAP
+  - robust control
+  - double-quantum Ramsey
