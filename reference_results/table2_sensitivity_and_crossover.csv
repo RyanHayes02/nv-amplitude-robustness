@@ -1,0 +1,13 @@
+method,amplitude_change_percent,eta_nominal_nT_rtHz,field_of_max_bias_nT,max_bias_nT,eta_rep_at_that_field_nT_rtHz,valid_fraction,status,crossover_time_s
+Hard,-10,42.63,-200,15.84,45.77,1.0,ok,8.349
+Hard,-40,42.63,200,164.98,39.75,1.0,ok,0.058
+Hard,50,42.63,-200,204.75,39.79,1.0,ok,0.038
+BB1,-10,42.88,200,0.55,47.3,1.0,ok,7313.362
+BB1,-40,42.88,-200,34.22,45.43,1.0,ok,1.763
+BB1,50,42.88,-200,97.88,42.76,1.0,ok,0.191
+Half-STIRAP,-10,50.72,200,3.12,56.0,1.0,ok,322.323
+Half-STIRAP,-40,50.72,-200,20.47,54.77,1.0,ok,7.159
+Half-STIRAP,50,50.72,-200,7.87,55.37,1.0,ok,49.533
+Optimal control (time-matched),-10,56.04,-200,2.64,60.95,1.0,ok,534.33
+Optimal control (time-matched),-40,56.04,-200,29.55,62.47,1.0,ok,4.47
+Optimal control (time-matched),50,56.04,200,13.1,61.53,1.0,ok,22.047

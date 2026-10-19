@@ -1,0 +1,6 @@
+{
+  "reference_checks_pass": true,
+  "convergence_checks_pass": true,
+  "baseline_reproduction_pass": true,
+  "scope": "Selected cases only; not experimental validation or proof of omitted-physics accuracy."
+}
