@@ -28,9 +28,17 @@ The reported reference run used Python 3.13.2, NumPy 2.2.3, SciPy 1.15.2, pandas
 
 | Path | Purpose |
 | --- | --- |
-| `nv_control_analysis.ipynb` | Clean notebook, with stored outputs removed |
-| `run_analysis.py` | Equivalent sequential Python entry point |
-| `reference_results/` | Numerical exports from reported run `20261019T202849Z` |
+| `nv_control_analysis.ipynb` | Notebook interface for the baseline benchmark |
+| `run_analysis.py` | Python entry point for the baseline benchmark |
+| `reference_results/` | Archived baseline results |
+| `security_metrics.py` | Threshold analysis of valid but biased readings |
+| `nv_security_engine.py` | Supporting engine for threshold analysis |
+| `README_security_metrics.md` | Instructions for running and interpreting threshold analysis |
+| `security_results/` | Archived threshold-analysis results |
+| `validate_revision.py` | Additional grid, inverse, hardware, and independent-solver checks |
+| `summarize_revision.py` | Aggregates the additional validation results |
+| `revision_results/verified/` | Archived validation results and settings |
+| `pulse_specification.tex` | Detailed pulse envelopes and phase conventions |
 | `CITATION.cff` | Software citation metadata |
 | `requirements*.txt` | Numerical and notebook dependencies |
 
@@ -65,14 +73,17 @@ Calibration is frozen before manipulation. Nonmonotone calibration branches are 
 
 Bias maxima are over the sampled field grid, not certified continuous worst-case bounds. Sensitivity includes modeled readout noise and cycle time. The crossover is an illustrative comparison of bias and local statistical noise, not an attack-detection time. Numerical agreement is limited to the tested cases and cannot validate omitted physics. No experimental validation, malicious-intent attribution, or general security guarantee is claimed.
 
-## Citation and archival release
+## Citation
 
-Before citing this repository in the manuscript, publish it under the intended account and create a versioned release. For a persistent archival identifier, archive that release in a service such as Zenodo. Add the actual repository URL and release DOI to `CITATION.cff`; none is invented here. Cite the release used for the paper and retain its corresponding parameter settings and results. The associated manuscript supplies the scientific references for NV sensing, BB1, STIRAP, and robust control.
+If you use this code or the accompanying results, please cite this repository using the metadata in CITATION.cff and identify the commit used.
+
+The manuscript cites commit 8c4f1ef97636ac4ae213a30f119fb6ce2eb1a584, which includes the baseline results, threshold analysis, and additional numerical validation.
 
 ## AI assistance
 
 OpenAI's ChatGPT/Codex and Anthropic's Claude assisted with code development, debugging, and manuscript preparation, including drafting, editing, and formatting. The authors take responsibility for the final code, analysis, and manuscript.
 
 ## License
+A software license has not yet been selected. The code and results are publicly available for inspection and reproducibility; reuse permissions will be specified when a license is added.
 
 A license has not been selected. Add an appropriate license before describing the repository as open-source or granting reuse permissions. Confirm the author and contributor metadata before public release.
