@@ -1,0 +1,5 @@
+scenario,method,scale,test_grid,test_points,calibration_points,inverse,dt_us,invalid_count,invalid_fraction,max_bias_nT,valid_max_bias_nT,valid_median_abs_bias_nT,valid_p95_abs_bias_nT,peak_valid_field_uT
+5mT_equal_mixture,bb1,0.9,original25,25,41,inverse_pchip,0.0005,8,0.32,nan,200.44756175928237,69.96735781579103,182.03199880829624,0.06666666666666665
+5mT_equal_mixture,bb1,1.5,original25,25,41,inverse_pchip,0.0005,4,0.16,nan,360.73910006335564,258.2484481714199,350.0791380164341,-0.2
+5mT_equal_mixture,stirap,0.9,original25,25,41,inverse_pchip,0.0005,2,0.08,nan,112.92964802458539,62.959055274201646,106.83902228376373,-0.16666666666666669
+5mT_equal_mixture,oc,0.9,original25,25,41,inverse_pchip,0.0005,1,0.04,nan,102.30891825329519,33.8206591250184,92.74602184162659,-0.18333333333333335

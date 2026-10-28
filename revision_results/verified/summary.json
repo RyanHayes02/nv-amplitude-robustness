@@ -1,0 +1,23 @@
+{
+  "selective_cases": 12,
+  "max_test_grid_change_cal41_nT": 0.00013350575794879305,
+  "max_calibration41_to161_dense401_change_nT": 0.0002938393457725397,
+  "max_alternative_inverse_change_nT": 5.6439327267288064e-05,
+  "max_dense_vs_shifted_cal161_change_nT": 7.947602020941247e-07,
+  "oc_plus10_dense_cal161_by_dt": [
+    {
+      "dt_us": 0.0005,
+      "bias_nT": 0.09810798188367165
+    },
+    {
+      "dt_us": 0.00025,
+      "bias_nT": 0.09813332489391757
+    },
+    {
+      "dt_us": 0.000125,
+      "bias_nT": 0.0981397272086515
+    }
+  ],
+  "invalids_in_tested_selective_rows": 0,
+  "note": "Observed changes for selected cases, not certified error bounds."
+}

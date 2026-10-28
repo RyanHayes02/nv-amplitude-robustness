@@ -1,0 +1,28 @@
+{
+  "mode": "grid",
+  "started_utc": "2026-10-27T23:04:42.335290+00:00",
+  "python": "3.12.11 | packaged by conda-forge | (main, Jun  4 2025, 14:29:09) [MSC v.1943 64 bit (AMD64)]",
+  "numpy": "2.2.3",
+  "scipy": "1.15.2",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "source_sha256": "89c7081486cf7f35eced02afcf53ba154275b5f6d322dac150f5db3ec49a035e",
+  "reference_commit": "d093f5151b385b3c8d22f2175c88fd668016e3e0",
+  "source_file": "run_analysis.py",
+  "selected_definitions": [
+    "_const",
+    "_drive_unitaries",
+    "_step_unitaries",
+    "analytic_plan",
+    "calibrate",
+    "evolve",
+    "max_bias",
+    "noise_grid",
+    "probabilities",
+    "probs_at",
+    "pulse_time",
+    "response",
+    "segments",
+    "sensitivity",
+    "shape"
+  ]
+}

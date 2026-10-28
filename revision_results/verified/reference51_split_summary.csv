@@ -1,0 +1,2 @@
+scenario,method,scale,test_grid,test_points,calibration_points,inverse,dt_us,invalid_count,invalid_fraction,max_bias_nT,valid_max_bias_nT,valid_median_abs_bias_nT,valid_p95_abs_bias_nT,peak_valid_field_uT
+51mT_95pct,stirap,1.5,original25,25,41,inverse_pchip,0.0005,0,0.0,2.104254489393637,2.104254489393637,1.8511650299111908,2.0541909581149373,0.2

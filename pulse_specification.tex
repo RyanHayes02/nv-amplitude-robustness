@@ -1,0 +1,33 @@
+
+\appendix[Pulse specification]
+These definitions specify the implemented envelopes; all frequencies below are angular frequencies. Write $\Omega_0=2\pi\times10~\mathrm{rad}/\us$ and $x=t/T_h\in[0,1]$, with $T_h=1.2~\us$. The forward half-STIRAP amplitudes are
+\begin{align}
+ a(t)=s_A\Omega_0 R(x)\cos\theta(x),\\
+ c(t)=s_B\Omega_0 R(x)\sin\theta(x)e^{i\phi_B}.
+\end{align}
+where
+\begin{equation}
+R(x)=\begin{cases}
+\sin^2(\pi x/0.4),&0\le x<0.2,\\
+1,&0.2\le x\le0.8,\\
+\cos^2[\pi(x-0.8)/0.4],&0.8<x\le1,
+\end{cases}
+\end{equation}
+\begin{align}
+ u=\min\{1,\max\{0,(x-0.2)/0.6\}\},\\
+ \theta(x)=\frac{\pi}{8}[1-\cos(\pi u)].
+\end{align}
+The analysis half-STIRAP uses $R(1-x)$ and $\theta(1-x)$. Each ARP has $T_a=1~\us$, $a=0$, and
+\begin{equation}
+ c(t)=s_B\Omega_0\sin(\pi t/T_a)
+ \exp\{i[\chi(t)+\phi_B]\},
+\end{equation}
+with $\chi(t)=C(t^2/T_a-t)$, $C=2\pi\times25~\mathrm{rad}/\us$ for preparation; analysis reverses the chirp sign. Its instantaneous angular detuning runs from $-C$ to $+C$. Preparation applies ARP followed by forward half-STIRAP; analysis applies reversed half-STIRAP followed by reversed-chirp ARP.
+
+For hard and BB1 blocks, each rotation $(\alpha,\phi)$ uses constant $a=s_A\Omega_0e^{i\phi}/\sqrt2$ and $c=s_B\Omega_0e^{i(\phi+\phi_B)}/\sqrt2$ for $\alpha/\Omega_0$. The optimized block replaces $\Omega_0,\phi$ with each stored amplitude and phase for 40 equal 0.055~\us\ segments. The numerical coefficient arrays are retained in the cited reference code. Preparation uses $\phi_B=0$; the separately initialized analysis measurements use $\phi_B=\pm\pi/2$ for every analysis segment. The analysis hard, BB1, and optimized blocks retain the preparation segment order. Cross-driving phases use absolute elapsed sequence time, including the microwave-free wait.
+
+A drive-energy proxy is
+\begin{equation}
+\mathcal E=\int_{\rm control}(|a(t)|^2+|c(t)|^2)\,dt.
+\end{equation}
+This quantity is not measured electrical energy; a conversion requires the apparatus transfer function. It is defined here for future resource comparisons and has not been used to match the reported pulses.

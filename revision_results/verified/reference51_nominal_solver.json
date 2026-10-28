@@ -1,0 +1,38 @@
+[
+  {
+    "duration_us": 1.0,
+    "nfev": 411281,
+    "seconds": 7.619555711746216,
+    "max_norm_error": 2.8305136012818366e-12
+  },
+  {
+    "duration_us": 1.2,
+    "nfev": 493529,
+    "seconds": 10.474056243896484,
+    "max_norm_error": 9.839906667252762e-12
+  },
+  {
+    "duration_us": 1.2,
+    "nfev": 493529,
+    "seconds": 10.576125383377075,
+    "max_norm_error": 1.674427263509415e-11
+  },
+  {
+    "duration_us": 1.0,
+    "nfev": 411281,
+    "seconds": 7.528260946273804,
+    "max_norm_error": 1.95913285594429e-11
+  },
+  {
+    "duration_us": 1.2,
+    "nfev": 493529,
+    "seconds": 10.759384870529175,
+    "max_norm_error": 1.6813439529528296e-11
+  },
+  {
+    "duration_us": 1.0,
+    "nfev": 411281,
+    "seconds": 7.614731311798096,
+    "max_norm_error": 1.9635737480427906e-11
+  }
+]

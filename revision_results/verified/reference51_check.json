@@ -1,0 +1,20 @@
+{
+  "field_uT": 0.2,
+  "split_max_bias_nT": 2.104254489393637,
+  "independent_local_bias_nT": 2.1176579517744045,
+  "inferred_field_difference_nT": 0.013403462380767728,
+  "max_disturbed_probability_difference": 8.803282359748366e-06,
+  "max_nominal_probability_difference": 3.858114160149029e-06,
+  "max_step_us": 2.9178338001867415e-05,
+  "rtol": 1e-10,
+  "atol": 1e-12,
+  "noise_nodes_per_manifold": 21,
+  "nuclear_populations": [
+    0.95,
+    0.025,
+    0.025
+  ],
+  "calibration_scope": "four independent nominal nodes around the inferred field",
+  "scope": "one original-grid peak at s=1.5, not a continuous-field or full-grid certificate",
+  "passes_selected_checks": true
+}

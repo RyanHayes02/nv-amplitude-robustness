@@ -1,0 +1,5 @@
+# Numerical checks match the reference NumPy/SciPy versions.
+numpy==2.2.3
+scipy==1.15.2
+# Figure reproduction used this installed plotting version.
+matplotlib==3.11.2
