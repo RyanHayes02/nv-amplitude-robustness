@@ -1,89 +1,95 @@
-# NV DQ Ramsey control under amplitude manipulation
+# VQE via Pauli Propagation
 
-Simulation code comparing hard pulses, BB1, fractional STIRAP, and a stored time-matched optimized-control pulse in NV-center double-quantum Ramsey magnetometry.
+Classical simulation of Variational Quantum Eigensolver (VQE) using Pauli propagation for frustrated quantum spin systems. Benchmarked against DMRG.
 
-The benchmark measures field-estimation bias under a frozen honest calibration, nominal local sensitivity, and an illustrative bias–noise crossover. It also evaluates independent-tone attenuation, cross-driving, static nuclear-state mixtures, and selected numerical-reference and convergence checks.
+## Results summary
 
-## Quick start
+| System | Qubits | Best error | Notes |
+|--------|--------|-----------|-------|
+| 1D Transverse Field Ising (OBC) | 50 | <0.5% (away from critical point) | δc=1e-5, L=5&10 |
+| 1D J1-J2 Heisenberg (OBC) | 20 | ~0% at J2/J1=0.5 (MG point) | δc=1e-4, MG dimer ref, L=5&10 |
+| 2D J1-J2 Heisenberg 4×4 (PBC) | 16 | **0.64% at J2/J1=0.535** | δc=3e-4, L=5 |
+| 2D J1-J2 Heisenberg 6×6 (PBC) | 36 | in progress | δc=3e-4, L=5 |
 
-Use Python 3.12 or 3.13 in an isolated environment. From the repository directory:
+## Method
 
-```bash
-python -m pip install -r requirements.txt
-python run_analysis.py
+**Pauli propagation:** The Hamiltonian H is expressed as a weighted sum of Pauli strings and propagated backwards through the circuit in the Heisenberg picture. Terms with |coefficient| < δc are truncated to control cost. Overlap with a reference state gives ⟨E⟩.
+
+**Optimizer:** SPSA + Adam. SPSA estimates gradients from two forward passes only — compatible with truncated Pauli sums where exact gradients are unavailable.
+
+**Benchmark:** All results compared to DMRG (ITensors.jl). Metric: ΔE/|E_DMRG|.
+
+## Phase diagram (2D J1-J2, square lattice PBC)
+
+```
+J2/J1:   0 ────── 0.535 ──── 0.610 ──────→
+Phase:   Néel AFM │  VBS (debated)  │  Stripe AFM
 ```
 
-For the notebook interface:
+## Reference states
 
-```bash
-python -m pip install -r requirements-notebook.txt
-jupyter lab nv_control_analysis.ipynb
+| System | Reference state | Why |
+|--------|----------------|-----|
+| TFI | \|+⟩^⊗n | Ground state of pure transverse field limit |
+| 1D J1-J2 | MG dimer state | Exact ground state at J2/J1=0.5 |
+| 2D J1-J2 (J2/J1 ≤ 0.535) | Néel state | Checkerboard ↑↓ pattern matches dominant order |
+| 2D J1-J2 (J2/J1 > 0.535) | Stripe state | Alternating rows ↑↑↑/↓↓↓ matches stripe order |
+
+## Circuit ansätze
+
+**TFI (HVA-inspired):** `RZ · RX · RZZ` per layer. RZ breaks Z₂ symmetry of the Hamiltonian.
+
+**1D J1-J2:** `RZ · RX` single-qubit layers + `RXX · RYY · RZZ` on NN then NNN bonds per layer.
+
+**2D J1-J2:** `RXX · RYY · RZZ` on NN bonds then NNN bonds per layer. No single-qubit layers (preserves SU(2) symmetry). 6 shared parameters per layer.
+
+## Repository structure
+
+```
+pauli-propagation-vqe/
+├── README.md
+├── report.pdf                        # full project report (coming soon)
+├── .gitignore
+├── code/
+│   ├── 01_1D_tfi_n50_1e-5.jl        # 1D TFI sweep (n=50, OBC)
+│   ├── 02_1D_j1j2_n20_1e-4.jl       # 1D J1-J2 sweep (n=20, OBC, MG init)
+│   ├── 03_2D_j1j2_3e-4_4x4.jl       # 2D 4x4 PBC sweep
+│   ├── 04_2D_j1j2_3e-4_6x6.jl       # 2D 6x6 PBC sweep
+│   └── 05_reeval_6x6_pbc.jl          # 6x6 re-evaluation at finer truncation (coming soon)
+└── figures/
+    ├── 01_fig_1D_tfi_n50_1e-5.pdf
+    ├── 02_fig_1D_j1j2_n20_1e-4.pdf
+    ├── 03_fig_2D_j1j2_3e-4_4x4.pdf
+    └── 04_fig_2D_j1j2_3e-4_6x6.pdf
 ```
 
-Run notebook cells from top to bottom. The notebook and script contain the same analysis code; use one entry point per run. For unattended or headless execution, set the Matplotlib backend to `Agg` using the `MPLBACKEND` environment variable. Numerical work is performed on the CPU. No hardware access, credentials, or network data retrieval is required by the analysis.
+## Requirements
 
-The reported reference run used Python 3.13.2, NumPy 2.2.3, SciPy 1.15.2, pandas 2.2.3, and Matplotlib 3.10.7. `requirements-reference.txt` pins these numerical packages; the general requirements allow compatible versions and do not promise bit-for-bit reproducibility. Runtime depends on CPU and package versions; cross-driving calculations dominate the cost.
+```
+Julia 1.12+
+PauliPropagation.jl   (https://github.com/MSRudolph/PauliPropagation.jl)
+ITensors.jl / ITensorMPS.jl
+Plots.jl
+Serialization (stdlib)
+```
 
-## Files
+Activate the project environment:
+```bash
+julia --project=. --threads=30
+```
 
-| Path | Purpose |
-| --- | --- |
-| `nv_control_analysis.ipynb` | Notebook interface for the baseline benchmark |
-| `run_analysis.py` | Python entry point for the baseline benchmark |
-| `reference_results/` | Archived baseline results |
-| `security_metrics.py` | Threshold analysis of valid but biased readings |
-| `nv_security_engine.py` | Supporting engine for threshold analysis |
-| `README_security_metrics.md` | Instructions for running and interpreting threshold analysis |
-| `security_results/` | Archived threshold-analysis results |
-| `validate_revision.py` | Additional grid, inverse, hardware, and independent-solver checks |
-| `summarize_revision.py` | Aggregates the additional validation results |
-| `revision_results/verified/` | Archived validation results and settings |
-| `pulse_specification.tex` | Detailed pulse envelopes and phase conventions |
-| `CITATION.cff` | Software citation metadata |
-| `requirements*.txt` | Numerical and notebook dependencies |
+## Running
 
-## Configuration
+All simulations were run on the ETH Zürich Euler HPC cluster using Julia 1.12, with threading ranging from 10 to 30 threads depending on the system size. Jobs were submitted via SLURM with memory allocations up to 125GB for the larger 6×6 runs. Checkpoints are saved periodically so jobs can be killed and resumed without losing progress.
 
-Settings are defined near the start of the analysis and in the configuration dataclasses. Defaults include a 6 microsecond free-evolution interval, 25 residual fields from −0.2 to +0.2 microtesla, and common amplitude factors from 0.5 to 1.5. The default outer time step is 0.5 ns. See `run_settings.json` for the complete configuration of each completed run.
+## Notes
 
-The optimized pulse coefficients are stored in the code. `RUN_OC_DESIGN = True` repeats the seeded six-start design and substantially increases runtime. Its objective is a bright-state rotation over an amplitude grid, not a field-aware global optimum. Re-optimizing can change the reported coefficients and results.
+- Checkpoint `.jls` files and DMRG cache files are not tracked by git — they are large binary Julia serialized objects
+- 2D 6×6 results are preliminary (wall-clock limit reached before convergence). Re-evaluation at finer truncation is ongoing
+- Snake ordering is used for 2D lattice site labelling: odd rows go left→right, even rows right→left
 
-`RUN_SLOW_REFERENCE_51 = True` enables an additional independent STIRAP reference at 51 mT. It was **not enabled in the reported reference run**. Selected 51 mT bias-convergence checks are included by default.
+## Author
 
-## Outputs
-
-Each run writes `paper_results/<UTC timestamp>/` and creates `NV_robust_control_results_<timestamp>.zip`. Outputs include:
-
-- Field-bias sweeps, sensitivity/crossover tables, and hardware-scenario tables.
-- PNG and vector PDF figures.
-- Baseline reproduction, independent-reference, and numerical-convergence tables.
-- Configuration, package versions, stored pulse coefficients, validation status, run log, and checksum manifest.
-
-Read `run_status.json` and the individual check tables before interpreting results. The checksum manifest describes the files included in the exported run. Save the executed notebook separately if its displayed outputs are needed. Generated results and archives are ignored by Git; the supplied `reference_results/` directory is retained.
-
-## Model and interpretation
-
-The state ordering is `|+1>, |0>, |-1>`. Units are microseconds, microtesla, and angular frequencies in radians per microsecond. The electronic gyromagnetic ratio is `2*pi*0.028 rad/(microsecond*microtesla)`.
-
-The simulation uses a three-level rotating-wave model, quasistatic Gaussian field averaging, and static secular nitrogen nuclear-state offsets. Cross-driving uses continuous absolute microwave phase. The 51 mT scenario assumes a 95% majority nuclear population; that is an input, not a measured preparation efficiency. It does not simulate optical nuclear preparation or a full electron–nuclear Hamiltonian.
-
-Common amplitude scaling preserves the two-tone ratio but changes the adiabatic gap. Independent-tone scaling changes the dark state. Neither fractional STIRAP nor any comparator is assumed immune to arbitrary waveform, phase, frequency, or timing manipulation. Real amplifier compression, AM-to-PM conversion, carrier counter-rotating terms, and a measured noise spectrum are outside the model.
-
-Calibration is frozen before manipulation. Nonmonotone calibration branches are rejected, and attacked readings outside the inverse-calibration domain are not clipped or extrapolated. A missing maximum means at least one field estimate is invalid under that case.
-
-Bias maxima are over the sampled field grid, not certified continuous worst-case bounds. Sensitivity includes modeled readout noise and cycle time. The crossover is an illustrative comparison of bias and local statistical noise, not an attack-detection time. Numerical agreement is limited to the tested cases and cannot validate omitted physics. No experimental validation, malicious-intent attribution, or general security guarantee is claimed.
-
-## Citation
-
-If you use this code or the accompanying results, please cite this repository using the metadata in CITATION.cff and identify the commit used.
-
-The manuscript cites commit 8c4f1ef97636ac4ae213a30f119fb6ce2eb1a584, which includes the baseline results, threshold analysis, and additional numerical validation.
-
-## AI assistance
-
-OpenAI's ChatGPT/Codex and Anthropic's Claude assisted with code development, debugging, and manuscript preparation, including drafting, editing, and formatting. The authors take responsibility for the final code, analysis, and manuscript.
-
-## License
-A software license has not yet been selected. The code and results are publicly available for inspection and reproducibility; reuse permissions will be specified when a license is added.
-
-A license has not been selected. Add an appropriate license before describing the repository as open-source or granting reuse permissions. Confirm the author and contributor metadata before public release.
+Ryan Hayes — ETH Zürich  
+Supervisor: Dr. Juan Carrasquilla Alvarez  
+PhD Student: Matteo D'Anna
